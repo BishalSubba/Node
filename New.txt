@@ -1,57 +1,63 @@
 #include <QApplication>
-#include <QGroupBox>
-#include <QVBoxLayout>
-#include <QWidget>
-#include <QLabel>
+#include <QMessageBox>
+#include <QPushButton>
 
 int main(int argc, char *argv[]) {
     QApplication app(argc, argv);
 
     // Set QSS directly
-    QString styleSheet = "QGroupBox {"
-                         "    margin: 10px;"
-                         "    padding: 15px;"
-                         "    border: 2px solid #8f8f91;"
-                         "    border-radius: 5px;"
+    QString styleSheet = "QMessageBox {"
                          "    background-color: #f0f0f0;"
+                         "    border: 2px solid #8f8f91;"
+                         "    border-radius: 10px;"
+                         "    padding: 10px;"
                          "}"
-                         "QGroupBox::title {"
-                         "    subcontrol-origin: margin;"
-                         "    subcontrol-position: top left;"
-                         "    padding: 0 3px;"
+                         "QMessageBox QLabel {"
                          "    color: #2e2e2e;"
-                         "    background-color: transparent;"
-                         "    font: bold 12px;"
+                         "    font-size: 14px;"
                          "}"
-                         "QGroupBox::indicator {"
+                         "QMessageBox QPushButton {"
+                         "    background-color: #3498db;"
+                         "    border: none;"
+                         "    border-radius: 5px;"
+                         "    color: white;"
+                         "    padding: 5px 10px;"
+                         "    font-size: 12px;"
+                         "}"
+                         "QMessageBox QPushButton:hover {"
+                         "    background-color: #2980b9;"
+                         "}"
+                         "QMessageBox QPushButton:pressed {"
+                         "    background-color: #1c5985;"
+                         "}"
+                         "QMessageBox QCheckBox {"
+                         "    color: #2e2e2e;"
+                         "    font-size: 12px;"
+                         "}"
+                         "QMessageBox QCheckBox::indicator {"
                          "    width: 13px;"
                          "    height: 13px;"
                          "}"
-                         "QGroupBox::indicator:checked {"
+                         "QMessageBox QCheckBox::indicator:checked {"
                          "    image: url(:/checked.png);"
                          "}"
-                         "QGroupBox::indicator:unchecked {"
+                         "QMessageBox QCheckBox::indicator:unchecked {"
                          "    image: url(:/unchecked.png);"
                          "}"
-                         "QGroupBox::indicator:indeterminate {"
+                         "QMessageBox QCheckBox::indicator:indeterminate {"
                          "    image: url(:/indeterminate.png);"
                          "}";
     app.setStyleSheet(styleSheet);
 
-    // Create a widget and set layout
-    QWidget window;
-    QVBoxLayout layout(&window);
+    // Create a QMessageBox
+    QMessageBox msgBox;
+    msgBox.setWindowTitle("Styled QMessageBox");
+    msgBox.setText("This is a custom styled QMessageBox.");
+    msgBox.setIcon(QMessageBox::Information);
+    msgBox.setStandardButtons(QMessageBox::Ok | QMessageBox::Cancel);
 
-    // Create and configure QGroupBox
-    QGroupBox groupBox("Group Box Title");
-    QLabel *label = new QLabel("Content inside the group box");
-    QVBoxLayout *groupBoxLayout = new QVBoxLayout;
-    groupBoxLayout->addWidget(label);
-    groupBox.setLayout(groupBoxLayout);
-    layout.addWidget(&groupBox);
-
-    // Show the window
-    window.show();
+    // Show the QMessageBox
+    msgBox.exec();
 
     return app.exec();
 }
